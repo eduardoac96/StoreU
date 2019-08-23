@@ -1,0 +1,231 @@
+<!-- <app-loader></app-loader> -->
+<div class="register-page">
+  <div class="content">
+    <form
+      #registerForm="ngForm"
+      class="register-form"
+      fxFlex
+      (ngSubmit)="register(registerForm)"
+    >
+      <div fxFlex fxLayout="column" fxFlexFill>
+        <div class="text-center">
+          <h2 class="app-name">Store U</h2>
+        </div>
+        <div>
+          <h3>Datos Personales</h3>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Nombre(s)."
+              ngModel
+              name="firstName"
+              type="text"
+              required
+              autocomplete="off"
+              maxlength="80"
+              #firstnameCtrl="ngModel"
+            />
+            <mat-error *ngIf="firstNameCtrl?.errors?.required"
+              >Campo requerido</mat-error
+            >
+
+            <mat-error *ngIf="firstNameCtrl?.errors?.maxlength"
+              >Excede el número de caracteres.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Apellido Paterno"
+              ngModel
+              name="lastName"
+              type="text"
+              required
+              autocomplete="off"
+              maxlength="80"
+              #lastnameCtrl="ngModel"
+            />
+
+            <mat-error *ngIf="lastnameCtrl?.errors?.maxlength">
+              Excede el número de catacteres.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Apellido Materno"
+              ngModel
+              name="secondLastName"
+              type="text"
+              
+              autocomplete="off"
+              maxlength="80"
+              #secondlastnameCtrl="ngModel"
+            />
+
+            <mat-error *ngIf="secondlastnameCtrl?.errors?.maxlength">
+              Excede el número de caracteres.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- <div>
+          <mat-form-field>
+            <input
+              matInput
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="birthPicker"
+              placeholder="Fecha de Nacimiento"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="birthPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #birthPicker></mat-datepicker>
+          </mat-form-field>
+        </div> -->
+
+        <div>
+ <mat-form-field>
+            <input
+              matInput
+              placeholder="Número Celular"
+              ngModel
+              name="personalPhoneNumber"
+              type="number"
+              required
+              
+              maxlength="10"
+              [errorStateMatcher]="matcher" 
+              autocomplete="off"
+              #personalPhoneNumberCtrl="ngModel"
+            />
+
+            <mat-error *ngIf="personalPhoneNumberCtrl?.errors?.maxlength">
+              Excede el número de caracteres.
+            </mat-error>
+ 
+          </mat-form-field>
+
+
+        </div>
+
+        <div>
+          <h3>Tu cuenta de Store U</h3>
+
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Email."
+              ngModel
+              name="userName"
+              type="email"
+              email
+              required
+              autocomplete="off"
+              maxlength="80"
+              #usernameCtrl="ngModel"
+            />
+
+            <mat-error *ngIf="usernameCtrl?.errors?.email">
+              Correo debe de tener un formato valido.
+            </mat-error>
+
+            <mat-error *ngIf="usernameCtrl?.errors?.maxlength"
+              >Excede el número de caracteres.
+            </mat-error>
+          </mat-form-field>
+         
+        </div>
+
+        <div> 
+          <mat-form-field floatPlaceholder="auto">
+            <mat-pass-toggle-visibility
+              #toggle
+              matSuffix
+            ></mat-pass-toggle-visibility>
+
+            <input
+              matInput
+              placeholder="Nueva contraseña"
+              ngModel
+              name="passwordRaw"
+              #passwordRaw
+              [type]="toggle.type"
+              required
+            />
+            <mat-hint align="end" aria-live="polite">
+              {{ passwordRaw.value.length }} / 25
+            </mat-hint>
+          </mat-form-field>
+          <mat-password-strength
+            #passwordComponent
+            [password]="passwordRaw.value"
+            class="green"
+          >
+          </mat-password-strength>
+        </div>
+ 
+        <div>
+          <mat-slide-toggle #toggleDetails
+            >Show Password Details</mat-slide-toggle
+          >
+          <mat-password-strength-info
+            *ngIf="toggleDetails.checked"
+            lowerCaseCriteriaMsg="Al menos una letra minuscula"
+            upperCaseCriteriaMsg="Al menos una letra mayuscula"
+            digitsCriteriaMsg="Al menos un número"
+            specialCharsCriteriaMsg="Al menos un caracter especial"
+            minCharsCriteriaMsg="Al menos 8 caracteres"
+            [passwordComponent]="passwordComponent"
+          >
+          </mat-password-strength-info>
+        </div>
+
+        <div>
+          <label>¿Que es lo que deseas hacer en Store U?</label>
+          <div class="w-100">
+            <mat-button-toggle-group
+              #roleName="matButtonToggleGroup"
+              name="roleName"
+              ngModel
+              aria-label="Font Style"
+            >
+              <mat-button-toggle value="vendedor"
+                >Quiero Vender</mat-button-toggle
+              >
+              <mat-button-toggle value="comprador"
+                >Quiero Comprar</mat-button-toggle
+              >
+            </mat-button-toggle-group>
+
+            <div *ngIf="roleName">
+              <label *ngIf="roleName.value === 'vendedor'">Vendedor</label>
+              <label *ngIf="roleName.value === 'comprador'">Comprador</label>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            class="w-100"
+            type="submit"
+            [disabled]="!registerForm.valid"
+          >
+            Crear Cuenta
+          </button>
+        </div>
+
+        <div fxFlexFill class="text-center backButton">
+          <a [routerLink]="['/login']">Regresar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
